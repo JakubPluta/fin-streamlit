@@ -102,5 +102,28 @@ class AlphaVantageClient:
         }
         return self.__call_api(query_parameters, **kwargs)
 
+    def time_series_daily(self, symbol: str, **kwargs):
+        query_parameters = {
+            "function": "TIME_SERIES_DAILY",
+            "symbol": symbol,
+            "outputsize" : "full"
+        }
+        return self.__call_api(query_parameters, **kwargs)
+
+    def time_series_monthly(self, symbol: str, **kwargs):
+        query_parameters = {
+            "function": "TIME_SERIES_MONTHLY",
+            "symbol": symbol,
+            "outputsize" : "full"
+        }
+        return self.__call_api(query_parameters, **kwargs)
+
+    def time_series_weekly(self, symbol: str, **kwargs):
+        query_parameters = {
+            "function": "TIME_SERIES_WEEKLY",
+            "symbol": symbol,
+            "outputsize" : "full"
+        }
+        return self.__call_api(query_parameters, **kwargs)
 
 
