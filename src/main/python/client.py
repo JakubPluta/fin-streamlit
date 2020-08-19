@@ -56,19 +56,51 @@ class AlphaVantageClient:
         :param query_parameters:
         :return: response
         """
-        headers = {"Content-type": "application/json",
-                   "X-Finnhub-Token": self.__api_key}
+        query_parameters["apikey"] = self.__api_key
 
         response = requests.get(
             AlphaVantageClient._URL,
-            headers=headers,
             params=query_parameters,
             proxies=self.__proxy
         )
 
         validate_http_status(response)
-        return response
+        return response.json()
 
+    def company_overview(self, ticker: str, **kwargs):
+        query_parameters = {
+            "function": "OVERVIEW",
+            "symbol": ticker
+        }
+        return self.__call_api(query_parameters, **kwargs)
+
+    def balance_sheet(self, ticker: str, **kwargs):
+        query_parameters = {
+            "function": "BALANCE_SHEET",
+            "symbol": ticker
+        }
+        return self.__call_api(query_parameters, **kwargs)
+
+    def income_statement(self, ticker: str, **kwargs):
+        query_parameters = {
+            "function": "INCOME_STATEMENT",
+            "symbol": ticker
+        }
+        return self.__call_api(query_parameters, **kwargs)
+
+    def cash_flow(self, ticker: str, **kwargs):
+        query_parameters = {
+            "function": "CASH_FLOW",
+            "symbol": ticker
+        }
+        return self.__call_api(query_parameters, **kwargs)
+
+    def search(self, keywords: str, **kwargs):
+        query_parameters = {
+            "function": "SYMBOL_SEARCH",
+            "keywords": keywords
+        }
+        return self.__call_api(query_parameters, **kwargs)
 
 
 
