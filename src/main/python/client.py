@@ -8,6 +8,10 @@ ENDPOINTS = {
     "INCOME_STATEMENT" : "INCOME_STATEMENT",
     "BALANCE_SHEET" : "BALANCE_SHEET",
     "CASH_FLOW" : "CASH_FLOW",
+    "SYMBOL_SEARCH" : "SYMBOL_SEARCH",
+    "TIME_SERIES_DAILY" : "TIME_SERIES_DAILY",
+    "TIME_SERIES_MONTHLY" : "TIME_SERIES_MONTHLY",
+    "TIME_SERIES_WEEKLY" : "TIME_SERIES_WEEKLY",
 
 }
 
@@ -16,11 +20,12 @@ class AlphaVantageClient:
 
     _URL = "https://www.alphavantage.co/query?"
 
-    def __init__(self, api_key=None):
+    def __init__(self, api_key=None, symbol=None):
         self.__api_key = api_key
         self.__proxy = {}
         self.__validate_api_key()
         self.__data_type = 'json'
+        self.__symbol = symbol
 
     def __validate_api_key(self, env="ALPHA_API_KEY"):
         if not self.__api_key:
@@ -31,6 +36,9 @@ class AlphaVantageClient:
 
     def show_base_url(self):
         print(self._URL)
+
+    def set_api_key(self, api_key: str):
+        self.__api_key = api_key
 
     def set_proxy(self, proxy=None):
         """sample format of proxy: 'http://<user>:<pass>@<proxy>:<port>'
@@ -67,31 +75,31 @@ class AlphaVantageClient:
         validate_http_status(response)
         return response.json()
 
-    def company_overview(self, ticker: str, **kwargs):
+    def company_overview(self, symbol: str, **kwargs):
         query_parameters = {
             "function": "OVERVIEW",
-            "symbol": ticker
+            "symbol": symbol
         }
         return self.__call_api(query_parameters, **kwargs)
 
-    def balance_sheet(self, ticker: str, **kwargs):
+    def balance_sheet(self, symbol: str, **kwargs):
         query_parameters = {
             "function": "BALANCE_SHEET",
-            "symbol": ticker
+            "symbol": symbol
         }
         return self.__call_api(query_parameters, **kwargs)
 
-    def income_statement(self, ticker: str, **kwargs):
+    def income_statement(self, symbol: str, **kwargs):
         query_parameters = {
             "function": "INCOME_STATEMENT",
-            "symbol": ticker
+            "symbol": symbol
         }
         return self.__call_api(query_parameters, **kwargs)
 
-    def cash_flow(self, ticker: str, **kwargs):
+    def cash_flow(self, symbol: str, **kwargs):
         query_parameters = {
             "function": "CASH_FLOW",
-            "symbol": ticker
+            "symbol": symbol
         }
         return self.__call_api(query_parameters, **kwargs)
 
@@ -126,4 +134,13 @@ class AlphaVantageClient:
         }
         return self.__call_api(query_parameters, **kwargs)
 
+
+class Stock(AlphaVantageClient):
+    def __init__(self, symbol: str):
+        super(AlphaVantageClient, self).__init__()
+        self.symbol = symbol
+        self.client = AlphaVantageClient(symbol)
+
+    def set_api_key(self, api_key):
+        self.client.set_api_key(api_key)
 

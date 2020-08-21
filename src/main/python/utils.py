@@ -2,7 +2,7 @@ import datetime, time
 import requests
 from requests import HTTPError
 import logging
-
+import pandas as pd
 
 def create_unix_timestamps(days=365):
     today = datetime.date.today()
@@ -36,6 +36,20 @@ def validate_http_status(response) -> None:
         raise HTTPError(message)
     logger.debug("Request Successful: {}".format(status_code))
 
+# class PandasFormatter():
+#     # https://pandas.pydata.org/pandas-docs/stable/user_guide/options.html
+#
+#     def __init__(self, data: pd.DataFrame):
+#         self.__data = data
+#         self.__int_format = "{0:,.0f}"
+#         self.__float_format = "{0:,.2f}"
+#         self.__str_format = "{0:}"
+#         self.__formatting_dict = {}
+#
+#     def pandas_int_formatter(self):
+#         for col in self.__data:
+#             if self.__data[col].dtype == "int64":
+#                 self.__formatting_dict[col] == self.__int_format
 
 
 
