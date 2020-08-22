@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9db50c39-9321-4fbd-bb6e-2692b31012bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/python/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/application.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/python/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/python/tests/test_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/tests/test_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/python/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/utils.py" afterDir="false" />
-    </list>
+    <list default="true" id="9db50c39-9321-4fbd-bb6e-2692b31012bf" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,7 +28,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="ignore_missing_gitignore" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/python" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -102,10 +96,10 @@
       <screen x="1920" y="-295" width="1920" height="1040" />
     </state>
     <state x="2334" y="-119" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824/1920.-295.1920.1040@1920.-295.1920.1040" timestamp="1597998719287" />
-    <state x="2660" y="-19" key="FileChooserDialogImpl" timestamp="1597998716583">
+    <state x="2660" y="-19" key="FileChooserDialogImpl" timestamp="1598118062664">
       <screen x="1920" y="-295" width="1920" height="1040" />
     </state>
-    <state x="2660" y="-19" key="FileChooserDialogImpl/0.0.1536.824/1920.-295.1920.1040@1920.-295.1920.1040" timestamp="1597998716583" />
+    <state x="2660" y="-19" key="FileChooserDialogImpl/0.0.1536.824/1920.-295.1920.1040@1920.-295.1920.1040" timestamp="1598118062664" />
     <state width="1877" height="342" key="GridCell.Tab.0.bottom" timestamp="1598096476813">
       <screen x="1920" y="-295" width="1920" height="1040" />
     </state>
