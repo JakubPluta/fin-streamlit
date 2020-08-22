@@ -20,7 +20,7 @@ pip install -r requirements
 ## Running script with command line
 
 ```
-python src/main/python/application.py --ticker="" --api_key="" --filename="" --directory=""
+streamlit run src/main/python/application.py
 ```
 
 ## Running the tests
