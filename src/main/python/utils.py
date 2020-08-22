@@ -4,6 +4,7 @@ from requests import HTTPError
 import logging
 import pandas as pd
 
+
 def create_unix_timestamps(days=365):
     today = datetime.date.today()
     unixtime_today = time.mktime(today.timetuple())
@@ -24,6 +25,7 @@ def create_logger():
     logger = logging.getLogger(__name__)
     return logger
 
+
 def validate_http_status(response) -> None:
     """
     Validate if Request Status = 200 else Raise an Exception.
@@ -35,7 +37,3 @@ def validate_http_status(response) -> None:
     if response.status_code != 200:
         raise HTTPError(message)
     logger.debug("Request Successful: {}".format(status_code))
-
-
-
-

@@ -4,15 +4,14 @@ from utils import *
 
 
 ENDPOINTS = {
-    "OVERVIEW" : "OVERVIEW",
-    "INCOME_STATEMENT" : "INCOME_STATEMENT",
-    "BALANCE_SHEET" : "BALANCE_SHEET",
-    "CASH_FLOW" : "CASH_FLOW",
-    "SYMBOL_SEARCH" : "SYMBOL_SEARCH",
-    "TIME_SERIES_DAILY" : "TIME_SERIES_DAILY",
-    "TIME_SERIES_MONTHLY" : "TIME_SERIES_MONTHLY",
-    "TIME_SERIES_WEEKLY" : "TIME_SERIES_WEEKLY",
-
+    "OVERVIEW": "OVERVIEW",
+    "INCOME_STATEMENT": "INCOME_STATEMENT",
+    "BALANCE_SHEET": "BALANCE_SHEET",
+    "CASH_FLOW": "CASH_FLOW",
+    "SYMBOL_SEARCH": "SYMBOL_SEARCH",
+    "TIME_SERIES_DAILY": "TIME_SERIES_DAILY",
+    "TIME_SERIES_MONTHLY": "TIME_SERIES_MONTHLY",
+    "TIME_SERIES_WEEKLY": "TIME_SERIES_WEEKLY",
 }
 
 
@@ -24,7 +23,7 @@ class AlphaVantageClient:
         self.__api_key = api_key
         self.__proxy = {}
         self.__validate_api_key()
-        self.__data_type = 'json'
+        self.__data_type = "json"
         self.__symbol = symbol
 
     def __validate_api_key(self, env="ALPHA_API_KEY"):
@@ -32,7 +31,9 @@ class AlphaVantageClient:
             self.__api_key = os.environ.get(env)
         if self.__api_key is None or not isinstance(self.__api_key, str):
             raise ValueError(
-                "Please visit \n" "https://www.alphavantage.co/support/#api-key\n and get your free API KEY")
+                "Please visit \n"
+                "https://www.alphavantage.co/support/#api-key\n and get your free API KEY"
+            )
 
     def show_base_url(self):
         print(self._URL)
@@ -57,7 +58,7 @@ class AlphaVantageClient:
     def get_proxy(self):
         return self.__proxy
 
-    def __call_api(self, query_parameters: dict,**kwargs):
+    def __call_api(self, query_parameters: dict, **kwargs):
         """
         The structure looks like:
             co./query?function{}&symbol{}
@@ -67,54 +68,37 @@ class AlphaVantageClient:
         query_parameters["apikey"] = self.__api_key
 
         response = requests.get(
-            AlphaVantageClient._URL,
-            params=query_parameters,
-            proxies=self.__proxy
+            AlphaVantageClient._URL, params=query_parameters, proxies=self.__proxy
         )
 
         validate_http_status(response)
         return response.json()
 
     def company_overview(self, symbol: str, **kwargs):
-        query_parameters = {
-            "function": "OVERVIEW",
-            "symbol": symbol
-        }
+        query_parameters = {"function": "OVERVIEW", "symbol": symbol}
         return self.__call_api(query_parameters, **kwargs)
 
     def balance_sheet(self, symbol: str, **kwargs):
-        query_parameters = {
-            "function": "BALANCE_SHEET",
-            "symbol": symbol
-        }
+        query_parameters = {"function": "BALANCE_SHEET", "symbol": symbol}
         return self.__call_api(query_parameters, **kwargs)
 
     def income_statement(self, symbol: str, **kwargs):
-        query_parameters = {
-            "function": "INCOME_STATEMENT",
-            "symbol": symbol
-        }
+        query_parameters = {"function": "INCOME_STATEMENT", "symbol": symbol}
         return self.__call_api(query_parameters, **kwargs)
 
     def cash_flow(self, symbol: str, **kwargs):
-        query_parameters = {
-            "function": "CASH_FLOW",
-            "symbol": symbol
-        }
+        query_parameters = {"function": "CASH_FLOW", "symbol": symbol}
         return self.__call_api(query_parameters, **kwargs)
 
     def search(self, keywords: str, **kwargs):
-        query_parameters = {
-            "function": "SYMBOL_SEARCH",
-            "keywords": keywords
-        }
+        query_parameters = {"function": "SYMBOL_SEARCH", "keywords": keywords}
         return self.__call_api(query_parameters, **kwargs)
 
     def time_series_daily(self, symbol: str, **kwargs):
         query_parameters = {
             "function": "TIME_SERIES_DAILY",
             "symbol": symbol,
-            "outputsize" : "full"
+            "outputsize": "full",
         }
         return self.__call_api(query_parameters, **kwargs)
 
@@ -122,7 +106,7 @@ class AlphaVantageClient:
         query_parameters = {
             "function": "TIME_SERIES_MONTHLY",
             "symbol": symbol,
-            "outputsize" : "full"
+            "outputsize": "full",
         }
         return self.__call_api(query_parameters, **kwargs)
 
@@ -130,7 +114,7 @@ class AlphaVantageClient:
         query_parameters = {
             "function": "TIME_SERIES_WEEKLY",
             "symbol": symbol,
-            "outputsize" : "full"
+            "outputsize": "full",
         }
         return self.__call_api(query_parameters, **kwargs)
 
@@ -142,4 +126,3 @@ class Stock:
 
     def set_api_key(self, api_key):
         self.client.set_api_key(api_key)
-
