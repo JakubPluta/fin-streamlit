@@ -135,11 +135,10 @@ class AlphaVantageClient:
         return self.__call_api(query_parameters, **kwargs)
 
 
-class Stock(AlphaVantageClient):
+class Stock:
     def __init__(self, symbol: str):
-        super(AlphaVantageClient, self).__init__()
         self.symbol = symbol
-        self.client = AlphaVantageClient(symbol)
+        self.client = AlphaVantageClient()
 
     def set_api_key(self, api_key):
         self.client.set_api_key(api_key)
