@@ -3,7 +3,7 @@
 Using streamlit as a tool for Financial Statement Analysis
 
 
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+![Alt Text](https://github.com/JakubPluta/fin-streamlit/blob/master/stock.gif)
 
 ### Prerequisites
 
