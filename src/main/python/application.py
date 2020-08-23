@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from client import AlphaVantageClient
 import plotly.express as px
-from utils import data_cleaner, financial_statement_chart
+from utils import data_cleaner, financial_statement_chart, quotes_chart, local_css
 
 
 client = AlphaVantageClient()
@@ -106,9 +106,13 @@ class StockInfo:
 
     def quotes_view(self):
         data = load_quotes(self.symbol).get("Time Series (Daily)")
-        data = pd.DataFrame(data).T
+        data = pd.DataFrame(data).T.reset_index()
+        data.columns = ["Date", "Open", "High", "Low", "Close", "Volume"]
         st.subheader("*Daily Quotes*")
         st.write(data)
+        chart = st.checkbox("Press if you want to show chart")
+        if chart:
+            quotes_chart(data)
 
     def kpi_view(self):
         data = load_company_info(self.symbol)
@@ -117,7 +121,7 @@ class StockInfo:
         table_dict = {k: v for k, v in data.items() if k not in COMPANY_BASIC_INFORMATION + USELESS_ELEMENTS}
         df = pd.DataFrame(table_dict.items())
         df.columns = ["Label", "Value"]
-        st.dataframe(df)
+        st.table(df)
 
 
 def user_search_input(keyword):
@@ -155,6 +159,7 @@ def home():
 
 def app():
     st.title("Stock Analyzer")
+    #local_css(r"src/main/python/style/style.css")
     st.empty()
     ticker = st.sidebar.text_input("Enter company ticker (e.g Facebook: FB)")
 
