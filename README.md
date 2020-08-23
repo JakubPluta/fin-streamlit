@@ -11,6 +11,15 @@ Using streamlit as a tool for Financial Statement Analysis
 visit https://www.alphavantage.co/ and get your API key
 ```
 
+
+### Running on heroku
+
+```
+https://fin-streamlit.herokuapp.com/
+```
+
+
+
 ### Installing
 
 
@@ -22,6 +31,7 @@ pip install -r requirements
 ## Running script with command line
 
 ```
+you need to setup your api_key first in src/main/settings/default
 streamlit run src/main/python/application.py
 ```
 
