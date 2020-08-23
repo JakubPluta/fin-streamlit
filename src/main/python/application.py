@@ -2,11 +2,9 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 from client import AlphaVantageClient
-import sys
 import plotly.express as px
+from utils import data_cleaner, financial_statement_chart
 
-
-sys.setrecursionlimit(1500)
 
 client = AlphaVantageClient()
 
@@ -69,45 +67,42 @@ class StockInfo:
         for k, v in table_dict.items():
             st.write(f"* {k}: {v}")
 
+
     def balance_sheet_view(self):
         data = load_balance_sheet(self.symbol).get("annualReports")
         data = pd.json_normalize(data).T
         st.subheader("*Balance Sheet*")
         st.write(data)
-        data = data.dropna()
+        data.drop(["reportedCurrency"], inplace=True)
+        cols = data.select_dtypes(exclude='int').columns.to_list()
+        data[cols] = data[cols].astype('str')
+        data = data.replace(['None',"0",0], np.nan).dropna(how='all')
         categories = data.index.to_list()
         categories.remove("fiscalDateEnding")
         chart = st.checkbox("Analyze Balance Sheet on Chart")
-
-        if chart:
-            chosen_category = st.selectbox("What category, do you want to analyze ? ", categories)
-            if chosen_category:
-                category_df = data.loc[chosen_category].values
-                year = data.loc["fiscalDateEnding"].values
-                chart = px.bar(x=year,y=category_df, text=category_df, color=year)
-                chart.update_traces(texttemplate='%{text:.2s}', textposition='outside')
-
-                chart.update_layout(legend=dict(
-                    orientation="h",
-                    yanchor="bottom",
-                    y=1.02,
-                    xanchor="right",
-                    x=1
-                ))
-                st.plotly_chart(figure_or_data=chart)
-
+        financial_statement_chart(chart, data, categories)
 
     def income_statement_view(self):
         data = load_income_statement(self.symbol).get("annualReports")
         data = pd.json_normalize(data).T
         st.subheader("*Income Statement*")
         st.write(data)
+        data = data_cleaner(data)
+        categories = data.index.to_list()
+        categories.remove("fiscalDateEnding")
+        chart = st.checkbox("Analyze Income Statement on Chart")
+        financial_statement_chart(chart, data, categories)
 
     def cash_flow_view(self):
         data = load_cash_flow(self.symbol).get("annualReports")
         data = pd.json_normalize(data).T
         st.subheader("*Cash Flow*")
         st.write(data)
+        data = data_cleaner(data)
+        categories = data.index.to_list()
+        categories.remove("fiscalDateEnding")
+        chart = st.checkbox("Analyze Cash Flow on Chart")
+        financial_statement_chart(chart, data, categories)
 
     def quotes_view(self):
         data = load_quotes(self.symbol).get("Time Series (Daily)")
