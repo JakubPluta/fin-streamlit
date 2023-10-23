@@ -1,4 +1,3 @@
-
 import os
 
 import requests
@@ -16,7 +15,7 @@ logger = get_logger(__name__)
 class AlphaVantageClient:
     def __init__(self, api_key: Optional[str] = None):
         self.base_url = "https://www.alphavantage.co/query?"
-        self.api_key = api_key
+        self.api_key = self._set_api_key(api_key)
         self._requests_session = get_retry_session()
 
     def __repr__(self):
@@ -36,30 +35,29 @@ class AlphaVantageClient:
         """Returns the request session object."""
         return self._requests_session
 
-    @property
-    def api_key(self):
-        return self._api_key
-
-    @api_key.setter
-    def api_key(self, api_key: str):
+    @staticmethod
+    def _set_api_key(api_key: str):
         if api_key and isinstance(api_key, str):
-            self._api_key = api_key
+            return api_key
         else:
-            logger.info(
+            logger.debug(
                 "AlphaVantage api key not set when initializing AlphaVantageClient. "
                 "Looking for ALPHA_VANTAGE_API_KEY key in environment variables..."
             )
             try:
-                self._api_key = os.environ["ALPHA_VANTAGE_API_KEY"]
-                logger.info("ALPHA_VANTAGE_API_KEY found in environment variables")
+                api_key = os.environ["ALPHA_VANTAGE_API_KEY"]
+                logger.debug("ALPHA_VANTAGE_API_KEY found in environment variables")
+                return api_key
             except KeyError:
-                logger.error("ALPHA_VANTAGE_API_KEY not in environment variables")
+                logger.debug("ALPHA_VANTAGE_API_KEY not in environment variables")
                 raise ApiKeyMissingException(
                     "Please visit https://www.alphavantage.co/support/#api-key to generate api key "
                     "and then pass it via api_key parameter or set ALPHA_VANTAGE_API_KEY env variable"
                 )
 
-    def _make_request(self, endpoint: str, symbol: Optional[str] = None, **params: Any) -> dict:
+    def _make_request(
+        self, endpoint: str, symbol: Optional[str] = None, **params: Any
+    ) -> dict:
         query_params = self._prepare_query_params(
             endpoint=endpoint, symbol=symbol, **params
         )
@@ -149,7 +147,7 @@ class AlphaVantageClient:
                 tickers=symbol,
                 topics=topics,
                 limit=limit,
-                **kwargs
+                **kwargs,
             )
 
         return self._make_request(
