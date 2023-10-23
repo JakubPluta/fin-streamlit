@@ -1,7 +1,11 @@
+from typing import Any
+
 import pandas as pd
 
 from fin_streamlit.clients.alpha_vantage import AlphaVantageClient
 import streamlit as st
+
+from fin_streamlit.utils import _prepare_statement_df
 
 COMPANY_BASIC_INFORMATION = [
     "Exchange",
@@ -17,13 +21,13 @@ COMPANY_BASIC_INFORMATION = [
 
 
 @st.cache_data
-def _company_info(_client: AlphaVantageClient, symbol, **kwargs):
+def _company_info(_client: AlphaVantageClient, symbol: str, **kwargs: Any):
     data = _client.get_company_overview(symbol, **kwargs)
     return data
 
 
 @st.cache_data
-def company_info(_client: AlphaVantageClient, symbol, **kwargs):
+def company_info(_client: AlphaVantageClient, symbol: str, **kwargs: Any):
     data = _company_info(_client, symbol, **kwargs)
     return {
         k: v
@@ -33,37 +37,25 @@ def company_info(_client: AlphaVantageClient, symbol, **kwargs):
 
 
 @st.cache_data
-def balance_sheet(_client: AlphaVantageClient, symbol, **kwargs):
-    data: dict = _client.get_balance_sheet(symbol=symbol, **kwargs)
-    data = data.get("annualReports")
-    df = pd.json_normalize(data).T
-    df.columns = df.iloc[0]
-    df = df[1:]
-    return df
+def balance_sheet(_client: AlphaVantageClient, symbol: str, **kwargs: Any):
+    data: dict = _client.get_balance_sheet(symbol=symbol, **kwargs).get("annualReports")
+    return _prepare_statement_df(data)
 
 
 @st.cache_data
-def income_statement(_client: AlphaVantageClient, symbol, **kwargs):
-    data: dict = _client.get_income_statement(symbol, **kwargs)
-    data = data.get("annualReports")
-    df = pd.json_normalize(data).T
-    df.columns = df.iloc[0]
-    df = df[1:]
-    return df
+def income_statement(_client: AlphaVantageClient, symbol: str, **kwargs: Any):
+    data: dict = _client.get_income_statement(symbol, **kwargs).get("annualReports")
+    return _prepare_statement_df(data)
 
 
 @st.cache_data
-def cash_flow(_client: AlphaVantageClient, symbol, **kwargs):
-    data: dict = _client.get_cash_flow(symbol, **kwargs)
-    data = data.get("annualReports")
-    df = pd.json_normalize(data).T
-    df.columns = df.iloc[0]
-    df = df[1:]
-    return df
+def cash_flow(_client: AlphaVantageClient, symbol: str, **kwargs: Any):
+    data: dict = _client.get_cash_flow(symbol, **kwargs).get("annualReports")
+    return _prepare_statement_df(data)
 
 
 @st.cache_data
-def quotes(_client: AlphaVantageClient, symbol, **kwargs):
+def quotes(_client: AlphaVantageClient, symbol: str, **kwargs: Any):
     data: dict = _client.get_time_series_daily(symbol, **kwargs)
     data = data.get("Time Series (Daily)")
     df = pd.DataFrame(data).T.reset_index()
@@ -72,7 +64,7 @@ def quotes(_client: AlphaVantageClient, symbol, **kwargs):
 
 
 @st.cache_data
-def kpis(_client: AlphaVantageClient, symbol, **kwargs):
+def kpis(_client: AlphaVantageClient, symbol: str, **kwargs: Any):
     data: dict = _company_info(_client, symbol, **kwargs)
     _to_remove = [
         *COMPANY_BASIC_INFORMATION,

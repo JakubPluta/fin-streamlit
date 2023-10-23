@@ -8,8 +8,14 @@ from typing import Optional, List, Any, Union
 from fin_streamlit.log import get_logger
 from requests.exceptions import HTTPError
 
+from dotenv import load_dotenv
+from pathlib import Path
 
 logger = get_logger(__name__)
+
+_ENV_FILE = Path("../../.env")
+
+load_dotenv(_ENV_FILE)
 
 
 class AlphaVantageClient:

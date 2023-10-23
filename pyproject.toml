@@ -13,6 +13,7 @@ plotly = "^5.17.0"
 streamlit = "^1.27.2"
 numpy = "^1.26.1"
 requests = "^2.31.0"
+poetry-dotenv-plugin = "^0.2.0"
 
 
 [tool.poetry.group.dev.dependencies]

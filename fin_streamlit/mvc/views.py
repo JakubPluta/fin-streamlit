@@ -39,7 +39,7 @@ def company_info_view(symbol, data):
     """
     )
     st.write(data.get("Description"))
-    filtered_data = {k:v for k,v in data.items() if k not in ["Name","Description"]}
+    filtered_data = {k: v for k, v in data.items() if k not in ["Name", "Description"]}
     for k, v in filtered_data.items():
         st.write(f"* {k}: {v}")
 
