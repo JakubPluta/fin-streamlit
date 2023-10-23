@@ -6,14 +6,6 @@ Using streamlit as a tool for Financial Statement Analysis
 ![Alt Text](https://github.com/JakubPluta/fin-streamlit/blob/master/stock.gif)
 
 
-### Running on heroku
-
-```
-https://fin-streamlit.herokuapp.com/
-```
-
-
-
 ### Prerequisites
 
 ```

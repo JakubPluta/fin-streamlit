@@ -1,9 +1,8 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from client import AlphaVantageClient
-import plotly.express as px
-from utils import data_cleaner, financial_statement_chart, quotes_chart, local_css
+from fin_streamlit.clients.alpha_vantage import AlphaVantageClient
+from fin_streamlit.utils import data_cleaner, financial_statement_chart, quotes_chart
 
 
 client = AlphaVantageClient()
@@ -21,37 +20,44 @@ COMPANY_BASIC_INFORMATION = [
     "MarketCapitalization",
 ]
 
-USELESS_ELEMENTS = ["Symbol", "AssetType", "Description", "Name", "FiscalYearEnd", "LatestQuarter"]
+USELESS_ELEMENTS = [
+    "Symbol",
+    "AssetType",
+    "Description",
+    "Name",
+    "FiscalYearEnd",
+    "LatestQuarter",
+]
 
 
 @st.cache
 def load_company_info(symbol):
-    return client.company_overview(symbol)
+    return client.get_company_overview(symbol)
 
 
 @st.cache
 def load_balance_sheet(symbol):
-    return client.balance_sheet(symbol)
+    return client.get_balance_sheet(symbol)
 
 
 @st.cache
 def look_for_company(keyword):
-    return client.search(keyword).get("bestMatches")
+    return client.get_search_results(keyword).get("bestMatches")
 
 
 @st.cache
 def load_income_statement(symbol):
-    return client.income_statement(symbol)
+    return client.get_income_statement(symbol)
 
 
 @st.cache
 def load_cash_flow(symbol):
-    return client.cash_flow(symbol)
+    return client.get_cash_flow(symbol)
 
 
 @st.cache
 def load_quotes(symbol):
-    return client.time_series_daily(symbol)
+    return client.get_time_series_daily(symbol)
 
 
 class StockInfo:
@@ -67,16 +73,15 @@ class StockInfo:
         for k, v in table_dict.items():
             st.write(f"* {k}: {v}")
 
-
     def balance_sheet_view(self):
         data = load_balance_sheet(self.symbol).get("annualReports")
         data = pd.json_normalize(data).T
         st.subheader("*Balance Sheet*")
         st.write(data)
         data.drop(["reportedCurrency"], inplace=True)
-        cols = data.select_dtypes(exclude='int').columns.to_list()
-        data[cols] = data[cols].astype('str')
-        data = data.replace(['None',"0",0], np.nan).dropna(how='all')
+        cols = data.select_dtypes(exclude="int").columns.to_list()
+        data[cols] = data[cols].astype("str")
+        data = data.replace(["None", "0", 0], np.nan).dropna(how="all")
         categories = data.index.to_list()
         categories.remove("fiscalDateEnding")
         chart = st.checkbox("Analyze Balance Sheet on Chart")
@@ -118,7 +123,11 @@ class StockInfo:
         data = load_company_info(self.symbol)
         st.subheader(f'{data.get("Name")}')
         st.write(f'{data.get("Description")}')
-        table_dict = {k: v for k, v in data.items() if k not in COMPANY_BASIC_INFORMATION + USELESS_ELEMENTS}
+        table_dict = {
+            k: v
+            for k, v in data.items()
+            if k not in COMPANY_BASIC_INFORMATION + USELESS_ELEMENTS
+        }
         df = pd.DataFrame(table_dict.items())
         df.columns = ["Label", "Value"]
         st.table(df)
@@ -159,12 +168,14 @@ def home():
 
 def app():
     st.title("Stock Analyzer")
-    #local_css(r"src/main/python/style/style.css")
+    # local_css(r"src/main/python/style/style.css")
     st.empty()
     ticker = st.sidebar.text_input("Enter company ticker (e.g Facebook: FB)")
 
     if ticker:
-        st.sidebar.text(f"{ticker.upper()} was provided\nNow you can switch between pages!")
+        st.sidebar.text(
+            f"{ticker.upper()} was provided\nNow you can switch between pages!"
+        )
 
     stock_element = st.sidebar.selectbox(
         "Choose a page",
@@ -175,7 +186,7 @@ def app():
             "Income Statement",
             "Cash Flow",
             "Stock Quotes",
-            "KPI"
+            "KPI",
         ],
     )
 

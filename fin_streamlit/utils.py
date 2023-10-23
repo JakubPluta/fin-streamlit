@@ -6,51 +6,71 @@ import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 
+
 def data_cleaner(data):
     data.drop(["reportedCurrency"], inplace=True)
-    cols = data.select_dtypes(exclude='int').columns.to_list()
-    data[cols] = data[cols].astype('str')
-    data = data.replace(['None', "0", 0], np.nan).dropna(how='all')
+    cols = data.select_dtypes(exclude="int").columns.to_list()
+    data[cols] = data[cols].astype("str")
+    data = data.replace(["None", "0", 0], np.nan).dropna(how="all")
     return data
+
 
 def local_css(file_name):
     with open(file_name) as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
 
 def remote_css(url):
     st.markdown(f'<link href="{url}" rel="stylesheet">', unsafe_allow_html=True)
 
 
-
 def quotes_chart(data):
-    fig = go.Figure(data=[go.Candlestick(
-        x=data['Date'],
-        open=data['Open'], high=data['High'],
-        low=data['Low'], close=data['Close'],
-        increasing_line_color='green', decreasing_line_color='red',
-    )])
+    fig = go.Figure(
+        data=[
+            go.Candlestick(
+                x=data["Date"],
+                open=data["Open"],
+                high=data["High"],
+                low=data["Low"],
+                close=data["Close"],
+                increasing_line_color="green",
+                decreasing_line_color="red",
+            )
+        ]
+    )
     fig.update_layout(title="Stock Quotes")
     st.plotly_chart(figure_or_data=fig)
 
+
 def financial_statement_chart(chart, data, categories):
     if chart:
-        chosen_category = st.selectbox("What category, do you want to analyze ? ", categories)
+        chosen_category = st.selectbox(
+            "What category, do you want to analyze ? ", categories
+        )
         if chosen_category:
             category_df = data.loc[chosen_category].values
             year = data.loc["fiscalDateEnding"].values
-            chart = px.bar(x=year, y=category_df, text=category_df, color=year,
-                           color_discrete_sequence=px.colors.qualitative.Antique, labels={"x":"Year", "y": chosen_category})
-            chart.update_traces(texttemplate='%{text:.2s}', textposition='outside')
+            chart = px.bar(
+                x=year,
+                y=category_df,
+                text=category_df,
+                color=year,
+                color_discrete_sequence=px.colors.qualitative.Antique,
+                labels={"x": "Year", "y": chosen_category},
+            )
+            chart.update_traces(texttemplate="%{text:.2s}", textposition="outside")
 
-            chart.update_layout(legend=dict(
-                orientation="h",
-                yanchor="bottom",
-                y=1.02,
-                xanchor="center",
-                x=0.531,
-                title="",
-                font_size=10
-            ))
+            chart.update_layout(
+                legend=dict(
+                    orientation="h",
+                    yanchor="bottom",
+                    y=1.02,
+                    xanchor="center",
+                    x=0.531,
+                    title="",
+                    font_size=10,
+                )
+            )
             st.plotly_chart(figure_or_data=chart)
 
 
