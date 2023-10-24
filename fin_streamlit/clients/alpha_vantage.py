@@ -1,22 +1,13 @@
-import os
-
+from enum import Enum
+from typing import Optional, List, Any, Union
 import requests
-
+from requests.exceptions import HTTPError
 from fin_streamlit.clients.utils import get_retry_session
 from fin_streamlit.exc import ApiKeyMissingException
-from typing import Optional, List, Any, Union
 from fin_streamlit.log import get_logger
-from requests.exceptions import HTTPError
-
-from dotenv import load_dotenv
-from pathlib import Path
-from enum import Enum
-
+from fin_streamlit.settings import Settings
 
 logger = get_logger(__name__)
-
-_ENV_FILE = Path("../../.env")
-load_dotenv(_ENV_FILE)
 
 
 class Endpoints(Enum):
@@ -91,11 +82,11 @@ class AlphaVantageClient:
         logger.debug(
             "Looking for ALPHA_VANTAGE_API_KEY key in environment variables..."
         )
-        try:
-            api_key = os.environ["ALPHA_VANTAGE_API_KEY"]
+        api_key = Settings.ALPHA_VANTAGE_API_KEY
+        if api_key is not None and isinstance(api_key, str):
             logger.debug("ALPHA_VANTAGE_API_KEY found in environment variables")
             self.api_key = api_key
-        except KeyError:
+        else:
             logger.debug("ALPHA_VANTAGE_API_KEY not in environment variables")
             raise ApiKeyMissingException(
                 "Please visit https://www.alphavantage.co/support/#api-key to generate api key "
@@ -321,10 +312,8 @@ class AlphaVantageClient:
             A dictionary containing market news and sentiments data
         """
 
-        topics = ",".join(topics) if topics and isinstance(topics, list) else topics
-
         if topics is not None:
-            ",".join(topics) if isinstance(topics, list) else topics
+            topics = ",".join(topics) if isinstance(topics, list) else topics
             return self._make_request(
                 endpoint=Endpoints.NEWS_SENTIMENT.value,
                 tickers=symbol,

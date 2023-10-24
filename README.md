@@ -3,8 +3,7 @@
 Using streamlit as a tool for Financial Statement Analysis
 
 
-![Alt Text](https://github.com/JakubPluta/fin-streamlit/blob/master/stock.gif)
-
+![stock.gif](stock.gif)
 
 ### Prerequisites
 
@@ -14,24 +13,44 @@ visit https://www.alphavantage.co/ and get your API key
 
 ### Installing
 
-
-```
+### Clone repository
+```bash
+# clone repository
 git clone https://github.com/JakubPluta/fin-streamlit.git
-pip install -r requirements
+```
+```bash
+# navigate to cloned project and create virtual environment
+python -m venv env
+```
+```bash
+# activate virtual environment
+source env/Scripts/activate # or source env/bin/activate
 ```
 
-## Running script with command line
-
-```
-you need to setup your api_key first in src/main/settings/default
-streamlit run src/main/python/application.py
+```python
+# install poetry
+pip install poetry
 ```
 
-## Running the tests
+```python
+# install packages
+poetry install
+```
 
 ```
-pytest src/main/python/tests
+* Visit https://www.alphavantage.co/ and get your API key
+* And then set ALPHA_VANTAGE_API_KEY in .env file in root directory
 ```
+
+```python
+# run application
+streamlit app.py
+
+# or use makefile
+make run
+```
+
+
 
 ## Built With
 
