@@ -1,6 +1,11 @@
 # fin-streamlit
 
-Using streamlit as a tool for Financial Statement Analysis
+Using Streamlit as a tool for Financial Statement Analysis
+
+```
+# check the demo here:
+https://finlite.streamlit.app/
+```
 
 
 ![stock.gif](stock.gif)
@@ -19,7 +24,7 @@ visit https://www.alphavantage.co/ and get your API key
 git clone https://github.com/JakubPluta/fin-streamlit.git
 ```
 ```bash
-# navigate to cloned project and create virtual environment
+# Navigate to cloned project and create a virtual environment
 python -m venv env
 ```
 ```bash
