@@ -1,10 +1,10 @@
 import numpy as np
-
-from fin_streamlit.clients.alpha_vantage import AlphaVantageClient
-from fin_streamlit.mvc import views as views
-from fin_streamlit.mvc import models as models
 import streamlit as st
 import pandas as pd
+
+from fin_streamlit.clients.alpha_vantage import AlphaVantageClient
+from fin_streamlit.mvc import views
+from fin_streamlit.mvc import models
 
 
 class DashboardController:
@@ -62,7 +62,7 @@ class DashboardController:
         data: pd.DataFrame = models.balance_sheet(self.client, self.symbol, **kwargs)
         views.balance_sheet_view(symbol=self.symbol, data=data)
 
-        check_box = st.checkbox(f"Analyze Balance Sheet on Chart")
+        check_box = st.checkbox("Analyze Balance Sheet on Chart")
         if check_box:
             views.financial_assets_chart_view(self._clean_data_for_chart(data))
 
@@ -76,7 +76,7 @@ class DashboardController:
         data: pd.DataFrame = models.income_statement(self.client, self.symbol, **kwargs)
         views.income_statement_view(self.symbol, data)
 
-        check_box = st.checkbox(f"Analyze Income Statement on Chart")
+        check_box = st.checkbox("Analyze Income Statement on Chart")
         if check_box:
             views.financial_assets_chart_view(self._clean_data_for_chart(data))
 
@@ -90,7 +90,7 @@ class DashboardController:
         data: pd.DataFrame = models.cash_flow(self.client, self.symbol, **kwargs)
         views.cash_flow_view(self.symbol, data)
 
-        check_box = st.checkbox(f"Analyze Cash Flow on Chart")
+        check_box = st.checkbox("Analyze Cash Flow on Chart")
         if check_box:
             views.financial_assets_chart_view(self._clean_data_for_chart(data))
 
