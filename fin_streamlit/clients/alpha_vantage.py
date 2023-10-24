@@ -1,7 +1,9 @@
 from enum import Enum
-from typing import Optional, List, Any, Union
+from typing import Any, List, Optional, Union
+
 import requests
 from requests.exceptions import HTTPError
+
 from fin_streamlit.clients.utils import get_retry_session
 from fin_streamlit.exc import ApiKeyMissingException
 from fin_streamlit.log import get_logger

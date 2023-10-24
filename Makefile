@@ -1,6 +1,6 @@
 pretty:
-	isort etfpy/ && isort tests/
-	black etfpy/ && black tests/
+	isort fin_streamlit/ && isort tests/
+	black fin_streamlit/ && black tests/
 
 run:
 	streamlit run app.py

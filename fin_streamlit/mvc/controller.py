@@ -1,10 +1,9 @@
 import numpy as np
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
 from fin_streamlit.clients.alpha_vantage import AlphaVantageClient
-from fin_streamlit.mvc import views
-from fin_streamlit.mvc import models
+from fin_streamlit.mvc import models, views
 
 
 class DashboardController:

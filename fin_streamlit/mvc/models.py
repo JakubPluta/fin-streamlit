@@ -1,10 +1,9 @@
 from typing import Any
 
 import pandas as pd
-
-from fin_streamlit.clients.alpha_vantage import AlphaVantageClient
 import streamlit as st
 
+from fin_streamlit.clients.alpha_vantage import AlphaVantageClient
 from fin_streamlit.utils import _prepare_statement_df
 
 COMPANY_BASIC_INFORMATION = [

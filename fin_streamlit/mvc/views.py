@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from fin_streamlit.charts import get_candle_chart, get_barchart
+from fin_streamlit.charts import get_barchart, get_candle_chart
 
 
 def _write_view(symbol: str, header: str, data: pd.DataFrame) -> None:

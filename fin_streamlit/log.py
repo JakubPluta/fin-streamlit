@@ -1,7 +1,7 @@
 import logging
-
 import sys
 from typing import Optional
+
 from fin_streamlit.settings import Settings
 
 LOGGING_FORMATTER = (
