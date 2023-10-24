@@ -18,14 +18,14 @@ _PAGES_VIEWS_MAP = {
 def dispatch_view(page: str, controller: DashboardController, **kwargs: Any) -> None:
     """Dispatches a view to the specified controller.
 
-       Args:
-           page: The name of the page to dispatch.
-           controller: The controller to dispatch the view to.
-           **kwargs: Keyword arguments to pass to the view.
+    Args:
+        page: The name of the page to dispatch.
+        controller: The controller to dispatch the view to.
+        **kwargs: Keyword arguments to pass to the view.
 
-       Returns:
-           The result of the view function.
-       """
+    Returns:
+        The result of the view function.
+    """
     return getattr(controller, _PAGES_VIEWS_MAP[page].__name__)(**kwargs)
 
 

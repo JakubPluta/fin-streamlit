@@ -1,9 +1,20 @@
+import pandas as pd
 import streamlit as st
 
 from fin_streamlit.charts import financial_statement_chart, quotes_chart
 
 
-def home_page_view(symbol: str):
+def _write_view(symbol: str, header: str, data: pd.DataFrame):
+    st.subheader(f"*{symbol} {header}*")
+    st.write(data)
+
+
+def home_page_view(symbol: str) -> None:
+    """Displays the home page of the Streamlit app.
+
+    Args:
+        symbol: The symbol of the company to display.
+    """
     st.markdown(
         f"""
         Application uses [AlphaVantage API](https://www.alphavantage.co/documentation/) to fetch financial data like 
@@ -29,7 +40,13 @@ def home_page_view(symbol: str):
     )
 
 
-def company_info_view(symbol, data):
+def company_info_view(symbol: str, data: dict) -> None:
+    """Displays the company information page of the Streamlit app.
+
+    Args:
+        symbol: The symbol of the company to display.
+        data: A dictionary containing the company information data.
+    """
     st.subheader(f'*{data.get("Name")} Overview*')
     st.markdown(
         f"""
@@ -44,42 +61,67 @@ def company_info_view(symbol, data):
         st.write(f"* {k}: {v}")
 
 
-def balance_sheet_view(symbol, data):
-    st.subheader(f"*{symbol} Balance Statement*")
-    st.write(data)
+def balance_sheet_view(symbol: str, data: pd.DataFrame) -> None:
+    """Displays the balance sheet page of the Streamlit app.
+
+    Args:
+        symbol: The symbol of the company to display.
+        data: A pd.DataFrame containing the balance sheet data.
+    """
+    _write_view(symbol, "Balance Sheet", data)
 
 
-def balance_sheet_chart_view(chart, data, categories):
-    financial_statement_chart(chart, data, categories)
+def income_statement_view(symbol: str, data: pd.DataFrame) -> None:
+    """Displays the Income Statement page of the Streamlit app.
+
+    Args:
+        symbol: The symbol of the company to display.
+        data: A pd.DataFrame containing the Income Statement data.
+    """
+    _write_view(symbol, "Income Statement Sheet", data)
 
 
-def income_statement_view(symbol, data):
-    st.subheader(f"*{symbol} Income Sheet*")
-    st.write(data)
+def cash_flow_view(symbol: str, data: pd.DataFrame) -> None:
+    """Displays the cash flow page of the Streamlit app.
+
+    Args:
+        symbol: The symbol of the company to display.
+        data: A pd.DataFrame containing the cash flow.
+    """
+    _write_view(symbol, "Cash Flow", data)
 
 
-def income_statement_chart_view(chart, data, categories):
-    financial_statement_chart(chart, data, categories)
+def quotes_view(symbol: str, data: pd.DataFrame) -> None:
+    """Displays the quotes page of the Streamlit app.
+
+    Args:
+        symbol: The symbol of the company to display.
+        data: A pd.DataFrame containing the quotes data.
+    """
+    _write_view(symbol, "Daily Quotes", data)
 
 
-def cash_flow_view(symbol, data):
-    st.subheader(f"*{symbol} Cash Flow*")
-    st.write(data)
+def kpi_view(symbol: str, data: pd.DataFrame) -> None:
+    """Displays the kpis page of the Streamlit app.
 
-
-def cash_flow_chart_view(chart, data, categories):
-    financial_statement_chart(chart, data, categories)
-
-
-def quotes_view(symbol, data):
-    st.subheader(f"*{symbol} Daily Quotes*")
-    st.write(data)
+    Args:
+        symbol: The symbol of the company to display.
+        data: A pd.DataFrame containing kpis data.
+    """
+    _write_view(symbol, "KPI's", data)
 
 
 def quotes_chart_view(data):
     quotes_chart(data)
 
 
-def kpi_view(symbol, data):
-    st.subheader(f"*{symbol} KPIs*")
-    st.table(data)
+def cash_flow_chart_view(chart, data, categories):
+    financial_statement_chart(chart, data, categories)
+
+
+def income_statement_chart_view(chart, data, categories):
+    financial_statement_chart(chart, data, categories)
+
+
+def balance_sheet_chart_view(chart, data, categories):
+    financial_statement_chart(chart, data, categories)
