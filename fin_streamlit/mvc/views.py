@@ -1,10 +1,21 @@
 import pandas as pd
 import streamlit as st
 
-from fin_streamlit.charts import financial_statement_chart, quotes_chart
+from fin_streamlit.charts import get_candle_chart, get_barchart
 
 
-def _write_view(symbol: str, header: str, data: pd.DataFrame):
+def _write_view(symbol: str, header: str, data: pd.DataFrame) -> None:
+    """
+    Writes a subheader and a DataFrame to the Streamlit app.
+
+    Args:
+        symbol: A symbol to be used in the subheader.
+        header: A header to be displayed above the DataFrame.
+        data: A Pandas DataFrame to be displayed.
+
+    Returns:
+        None.
+    """
     st.subheader(f"*{symbol} {header}*")
     st.write(data)
 
@@ -35,9 +46,24 @@ def home_page_view(symbol: str) -> None:
         Now you can analyze all of the elements of report. 
         
         Chosen symbol: {symbol}
-        
         """
     )
+
+
+def search_results_view(keyword: str, data: pd.DataFrame) -> None:
+    """
+    Searches for a keyword in a Pandas DataFrame and displays the results.
+
+    Args:
+        keyword: The keyword to search for.
+        data: A Pandas DataFrame containing the data to be searched.
+
+    Returns:
+        None.
+    """
+
+    st.write(f"Here are results for searched keyword {keyword}")
+    st.write(data)
 
 
 def company_info_view(symbol: str, data: dict) -> None:
@@ -111,17 +137,27 @@ def kpi_view(symbol: str, data: pd.DataFrame) -> None:
     _write_view(symbol, "KPI's", data)
 
 
-def quotes_chart_view(data):
-    quotes_chart(data)
+def quotes_chart_view(data: pd.DataFrame) -> None:
+    """Displays a candle chart of the quotes data.
+
+    Args:
+        data: A Pandas DataFrame containing the quotes data.
+    """
+
+    fig = get_candle_chart(data)
+    st.plotly_chart(figure_or_data=fig)
 
 
-def cash_flow_chart_view(chart, data, categories):
-    financial_statement_chart(chart, data, categories)
+def financial_assets_chart_view(data: pd.DataFrame) -> None:
+    """Displays a bar chart of the financial assets data.
 
+    Args:
+        data: A Pandas DataFrame containing the financial assets data.
+    """
 
-def income_statement_chart_view(chart, data, categories):
-    financial_statement_chart(chart, data, categories)
-
-
-def balance_sheet_chart_view(chart, data, categories):
-    financial_statement_chart(chart, data, categories)
+    categories = data.index.to_list()
+    chosen_category = st.selectbox(
+        "What category, do you want to analyze ? ", categories
+    )
+    fig = get_barchart(data, chosen_category)
+    st.plotly_chart(figure_or_data=fig)

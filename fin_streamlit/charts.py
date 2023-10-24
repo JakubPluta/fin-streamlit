@@ -1,9 +1,9 @@
-import streamlit as st
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
 
-def quotes_chart(data):
+def get_candle_chart(data: pd.DataFrame) -> go.Figure:
     fig = go.Figure(
         data=[
             go.Candlestick(
@@ -18,36 +18,30 @@ def quotes_chart(data):
         ]
     )
     fig.update_layout(title="Stock Quotes")
-    st.plotly_chart(figure_or_data=fig)
+    return fig
 
 
-def financial_statement_chart(chart, data, categories):
-    if chart:
-        chosen_category = st.selectbox(
-            "What category, do you want to analyze ? ", categories
+def get_barchart(data: pd.DataFrame, category: str) -> go.Figure:
+    category_values = data.loc[category].values
+    year_values = data.columns.values
+    fig = px.bar(
+        x=year_values,
+        y=category_values,
+        text=category_values,
+        color=year_values,
+        color_discrete_sequence=px.colors.qualitative.Antique,
+        labels={"x": "Year", "y": category},
+    )
+    fig.update_traces(texttemplate="%{text:.2s}", textposition="outside")
+    fig.update_layout(
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="center",
+            x=0.531,
+            title="",
+            font_size=10,
         )
-        if chosen_category:
-            category_df = data.loc[chosen_category].values
-            year = data.columns.values
-            chart = px.bar(
-                x=year,
-                y=category_df,
-                text=category_df,
-                color=year,
-                color_discrete_sequence=px.colors.qualitative.Antique,
-                labels={"x": "Year", "y": chosen_category},
-            )
-            chart.update_traces(texttemplate="%{text:.2s}", textposition="outside")
-
-            chart.update_layout(
-                legend=dict(
-                    orientation="h",
-                    yanchor="bottom",
-                    y=1.02,
-                    xanchor="center",
-                    x=0.531,
-                    title="",
-                    font_size=10,
-                )
-            )
-            st.plotly_chart(figure_or_data=chart)
+    )
+    return fig

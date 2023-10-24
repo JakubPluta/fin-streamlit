@@ -160,3 +160,21 @@ def kpis(_client: AlphaVantageClient, symbol: str, **kwargs: Any) -> pd.DataFram
     df = pd.DataFrame(table_dict.items())
     df.columns = ["Label", "Value"]
     return df
+
+
+@st.cache_data
+def search(_client: AlphaVantageClient, keywords: str, **kwargs) -> pd.DataFrame:
+    """Gets the best-matching symbols and market information
+    based on provided keywords
+
+    Args:
+        _client: An AlphaVantageClient.
+        keywords: query keyword to search for.
+        **kwargs: Additional parameters to pass to the API.
+
+        Returns:
+            A Pandas DataFrame containing the company's KPI data.
+
+    """
+    results = _client.get_search_results(keywords, **kwargs).get("bestMatches")
+    return pd.DataFrame(results)
