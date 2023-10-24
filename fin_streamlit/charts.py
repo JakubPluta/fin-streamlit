@@ -4,6 +4,15 @@ import plotly.graph_objects as go
 
 
 def get_candle_chart(data: pd.DataFrame) -> go.Figure:
+    """
+    Generates a candlestick chart from a Pandas DataFrame.
+
+    Args:
+        data: A Pandas DataFrame containing the data to be plotted.
+
+    Returns:
+        A Plotly Figure object representing the candlestick chart.
+    """
     fig = go.Figure(
         data=[
             go.Candlestick(
@@ -22,6 +31,16 @@ def get_candle_chart(data: pd.DataFrame) -> go.Figure:
 
 
 def get_barchart(data: pd.DataFrame, category: str) -> go.Figure:
+    """
+    Generates a bar chart from a Pandas DataFrame, grouped by a specified category.
+
+    Args:
+        data: A Pandas DataFrame containing the data to be plotted.
+        category: The category to group the data by.
+
+    Returns:
+        A Plotly Figure object representing the bar chart.
+    """
     category_values = data.loc[category].values
     year_values = data.columns.values
     fig = px.bar(
