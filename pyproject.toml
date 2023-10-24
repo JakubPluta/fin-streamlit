@@ -4,6 +4,11 @@ version = "0.1.0"
 description = "Financial dashboards"
 authors = ["jp <plutakuba@gmail.com>"]
 readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
@@ -20,6 +25,8 @@ poetry-dotenv-plugin = "^0.2.0"
 black = "^23.10.0"
 pre-commit = "^3.5.0"
 pylint = "^3.0.2"
+isort = "^5.12.0"
+bumpversion = "^0.6.0"
 
 [build-system]
 requires = ["setuptools<65.5.0", "poetry-core>=1.0.0"]
